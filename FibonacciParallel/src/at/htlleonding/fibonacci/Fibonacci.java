@@ -24,11 +24,19 @@
 package at.htlleonding.fibonacci;
 
 /**
- *
- * @author P. Bauer <p.bauer@htl-leonding.ac.at>
+ * Demo to calculate the Fib. numbers using single- and multi-threaded solutions.
+ * @author P. Bauer <p.bauer@htl-leonding.ac.at>, Last Cat.-ID (M. W.)
  */
 public class Fibonacci {
+    // Counter for parallel solution.
+    static int curr = 1;
 
+    /**
+     * Calculates the number using a single thread.
+     * 
+     * @param n
+     * @return 
+     */
     static int getNumberSingle(int n) {
         if (n < 2)
             return 1;
@@ -36,15 +44,28 @@ public class Fibonacci {
             return getNumberSingle(n - 1) + getNumberSingle(n - 2);
     }
 
+    /**
+     * Calculates the number using multiple threads.
+     * 
+     * @param n
+     * @return 
+     */
     static int getNumberParallel(int n) {
         Thread t1 = new Thread(new Runnable() {
 
             @Override
             public void run() {
-                
+                curr++;
             }
             
         });
+        
+        if(n < 2) t1.start();
+        else {
+            return getNumberParallel(n - 2) + getNumberParallel(n - 1);
+        }
+        
+        // Exit, number is 1.
         return 1;
     }
     
